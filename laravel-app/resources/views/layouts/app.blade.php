@@ -33,8 +33,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
-                    </ul>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{route('cate_index_get')}}">Manage Fruit Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('item_index_get')}}">Manage Fruit Item</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('order_index_get')}}">Manage Invoice</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('viewcart_get')}}">View Cart</a>
+                        </li>
+                    </ul> 
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
