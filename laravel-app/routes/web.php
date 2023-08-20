@@ -33,34 +33,34 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('cate/list', [
             'as' => 'cate_index_get',
             function () {
-                return view('listcate')->with('title', 'Manage Fruit Category');
+                return view('admin.module.category.list')->with('title', 'Manage Fruit Category');
             }
         ]);
         Route::get('item/list', [
             'as' => 'item_index_get',
             function () {
-                return view('listitem')->with('title', 'Manage Fruit Item');
+                return view('admin.module.item.list')->with('title', 'Manage Fruit Item');
             }
         ]);
 
         Route::get('order/list', [
             'as' => 'order_index_get',
             function () {
-                return view('orderlist')->with('title', 'Manage Invoice');
+                return view('admin.module.invoice.orderlist')->with('title', 'Manage Invoice');
             }
         ]);
 
         Route::get('item/dashboard', [
             'as' => 'item_get',
             function () {
-                return view('item')->with('title', 'Apple Category');
+                return view('admin.module.item.show')->with('title', 'Apple Category');
             }
         ]);
 
         Route::get('viewcart', [
             'as' => 'viewcart_get',
             function () {
-                return view('viewcart')->with('title', 'View Cart');
+                return view('admin.module.invoice.viewcart')->with('title', 'View Cart');
             }
         ]);
     });
