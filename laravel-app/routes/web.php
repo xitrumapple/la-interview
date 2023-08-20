@@ -26,22 +26,43 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('cate/list', ['as'=>'cate_index_get', function(){
-    return view('listcate')->with('title','Manage Fruit Category');
-}]);
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('item/list', ['as'=>'item_index_get', function(){
-    return view('listitem')->with('title','Manage Fruit Item');
-}]);
+    Route::group(['prefix' => 'cn_admin', 'namespace' => 'Admin'], function () {
 
-Route::get('order/list', ['as'=>'order_index_get', function(){
-    return view('orderlist')->with('title','Manage Invoice');
-}]);
+        Route::get('cate/list', [
+            'as' => 'cate_index_get',
+            function () {
+                return view('listcate')->with('title', 'Manage Fruit Category');
+            }
+        ]);
+        Route::get('item/list', [
+            'as' => 'item_index_get',
+            function () {
+                return view('listitem')->with('title', 'Manage Fruit Item');
+            }
+        ]);
 
-Route::get('item/dashboard', ['as'=>'item_get', function(){
-    return view('item')->with('title','Apple Category');
-}]);
+        Route::get('order/list', [
+            'as' => 'order_index_get',
+            function () {
+                return view('orderlist')->with('title', 'Manage Invoice');
+            }
+        ]);
 
-Route::get('viewcart', ['as'=>'viewcart_get', function(){
-    return view('viewcart')->with('title','View Cart');
-}]);
+        Route::get('item/dashboard', [
+            'as' => 'item_get',
+            function () {
+                return view('item')->with('title', 'Apple Category');
+            }
+        ]);
+
+        Route::get('viewcart', [
+            'as' => 'viewcart_get',
+            function () {
+                return view('viewcart')->with('title', 'View Cart');
+            }
+        ]);
+    });
+
+});
