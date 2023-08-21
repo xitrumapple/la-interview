@@ -10,13 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('category', function (Blueprint $table) {
-            $table->id();
-            $table->string("cate_name", 100);
-            $table->string('slug', 100);
-            $table->string('description', 250)->nullable();
-            $table->timestamps();
-        });
+        Schema::rename('category', 'cates');
     }
 
     /**
@@ -24,6 +18,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('category');
+        Schema::rename('cates', 'category');
     }
 };

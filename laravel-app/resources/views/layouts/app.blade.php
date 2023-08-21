@@ -89,9 +89,32 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        @include('admin.blocks.error')
+                        @include('admin.blocks.flash')
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $(".alert-danger,.alert-success").delay(3000).slideUp();
+        });
+
+        function confirmDel(msg) {
+            if (window.confirm(msg)) {
+                return true;
+            }
+            return false;
+        }
+    </script>
 </body>
 
 </html>

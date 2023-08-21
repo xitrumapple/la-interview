@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,14 +29,30 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::group(['prefix' => 'cn_admin', 'namespace' => 'Admin'], function () {
+    Route::group(['prefix' => 'cn_admin', 'namespace' => 'App\Http\Controllers\Admin'], function () {
 
-        Route::get('cate/list', [
-            'as' => 'cate_index_get',
-            function () {
-                return view('admin.module.category.list')->with('title', 'Manage Fruit Category');
-            }
-        ]);
+        Route::group(['prefix' => 'category'], function () {
+            Route::get('create', ['as' => 'cate_create_get', 'uses' => 'CateController@getCreate']);
+            Route::post('create', ['as' => 'cate_create_post', 'uses' => 'CateController@postCreate']);
+            Route::get('list', ['as' => 'cate_index_get', 'uses' => 'CateController@getIndex']);
+            Route::get('delete/{id}', ['as' => 'cate_delete_get', 'uses' => 'CateController@getDelete'])->where(['id' => '[0-9]+']);
+            Route::get('edit/{id}', ['as' => 'cate_edit_get', 'uses' => 'CateController@getEdit'])->where(['id' => '[0-9]+']);
+            Route::post('edit/{id}', ['as' => 'cate_edit_post', 'uses' => 'CateController@postEdit'])->where(['id' => '[0-9]+']);
+        });
+
+
+
+
+
+
+
+
+        // Route::get('cate/list', [
+        //     'as' => 'cate_index_get',
+        //     function () {
+        //         return view('admin.module.category.list')->with('title', 'Manage Fruit Category');
+        //     }
+        // ]);
         Route::get('item/list', [
             'as' => 'item_index_get',
             function () {
