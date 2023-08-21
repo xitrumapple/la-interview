@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CateRequest extends FormRequest
+class CateEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,14 @@ class CateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'txtCateName' => 'required|unique:cates,cate_name'
+            'txtCateName' => 'required'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'txtCateName.required' => 'Please Enter Category Name.',
-            'txtCateName.unique' => 'Category Name has already exists.',
+            'txtCateName.required' => 'Please Enter Category Name.'
         ];
     }
 }

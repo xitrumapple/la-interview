@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class CateRequest extends FormRequest
+class ItemEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +22,20 @@ class CateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'txtCateName' => 'required|unique:cates,cate_name'
+            'txtItemName' => 'required',
+            'sltCate' => 'required',
+            'sltUnit' => 'required',
+            'txtPrice' => 'required|integer'
         ];
     }
-
     public function messages(): array
     {
         return [
-            'txtCateName.required' => 'Please Enter Category Name.',
-            'txtCateName.unique' => 'Category Name has already exists.',
+            'txtItemName.required' => 'Please Enter Item Name.',
+            'sltCate.required' => 'Please Choose Category.',
+            'sltUnit.required' => 'Please Choose Unit.',
+            'txtPrice.required' => 'Please Enter Price.',
+            'txtPrice.integer' => 'Price must be integer.',
         ];
     }
 }

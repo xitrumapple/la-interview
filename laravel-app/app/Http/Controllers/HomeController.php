@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cate;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $cates = Cate::with('items')->get();
+        return view('home')->with([
+            'title' => 'Dashboard - Categories',
+            'listCate' => $cates
+        ]);
     }
 }

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cate;
 use App\Http\Requests\CateRequest;
+use App\Http\Requests\CateEditRequest;
 use Illuminate\Support\Str;
+
 
 class CateController extends Controller
 {
@@ -53,7 +55,7 @@ class CateController extends Controller
             'cate' => $cate,
         ]);
     }
-    public function postEdit(CateRequest $request, $id)
+    public function postEdit(CateEditRequest $request, $id)
     {
         $cate = Cate::find($id);
         $cate->cate_name = $request->txtCateName;
