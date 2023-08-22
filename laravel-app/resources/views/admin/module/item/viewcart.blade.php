@@ -11,7 +11,7 @@
                 <tr>
                     <td>Customer</td>
                     <td colspan="7">
-                        <input type="text" pattern="[a-zA-Z0-9._\-]+" name="txtCustomerName"
+                        <input type="text" pattern="[a-zA-Z0-9\s._\-]+" name="txtCustomerName"
                             value="{{Old('txtCustomerName')}}" placeholder="Please enter customer name" required
                             autofocus size="30">
                     </td>

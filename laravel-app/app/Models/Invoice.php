@@ -13,6 +13,11 @@ class Invoice extends Model
 
     public function items(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class, "item_invoices")->withTimestamps();
+        return $this->belongsToMany(Item::class, "item_invoices")
+            ->withPivot(
+                'quantity',
+                'price'
+            )
+            ->withTimestamps();
     }
 }

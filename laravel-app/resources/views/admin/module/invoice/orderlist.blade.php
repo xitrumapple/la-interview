@@ -6,9 +6,6 @@
 
     <div class="card-body">
         <table class="table table-bordered table-hover">
-            <!-- <tr>
-                            <td colspan="8"><a href="#" class="btn btn-info">Add Order</a></td>
-                        </tr> -->
             <tr>
                 <td>Order Id</td>
                 <td>Customer</td>
@@ -17,22 +14,24 @@
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
+            @foreach ($listInvoice as $key_o=>$invoice)
+            <?php
+                foreach($invoice['items'] as $key_i=>$item) {
+                    $sum[$key_o][$key_i] = $item['pivot']['quantity'] * $item['pivot']['price'];
+                }
+            ?>
             <tr>
-                <td>1</td>
-                <td>Parth Kotadiya</td>
-                <td>₹ 1558.00</td>
-                <td>26 Jul 2023 6:15 AM</td>
+                <td>{{$invoice['id']}}</td>
+                <td>{{$invoice['customer_name']}}</td>
+                <td>{{array_sum($sum[$key_o])}}</td>
+                <td>
+                    <?php \Carbon\Carbon::setLocale('vi') ?>
+                    {{ \Carbon\Carbon::createFromTimeStamp(strtotime($invoice['created_at']))->format('M d Y H:i:s') }}
+                </td>
                 <td><a href="#" class="btn btn-warning">Edit</a></td>
                 <td><a href="#" class="btn btn-danger">Delete</a></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Aniket</td>
-                <td>₹ 17.90</td>
-                <td>26 Jul 2023 6:15 AM</td>
-                <td><a href="#" class="btn btn-warning">Edit</a></td>
-                <td><a href="#" class="btn btn-danger">Delete</a></td>
-            </tr>
+            @endforeach
         </table>
     </div>
 </div>

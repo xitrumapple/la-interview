@@ -75,10 +75,6 @@ class ItemController extends Controller
     public function getItemByCate($id, $title)
     {
         $cate = Cate::find($id);
-        $sessions = session()->all();
-        echo "<pre>";
-        print_r($sessions);
-        echo "</pre>";
         if ($cate) {
             $items = $cate->items()->get();
             return view('admin.module.item.show')->with([
@@ -109,7 +105,6 @@ class ItemController extends Controller
     public function addItemtoCart($id)
     {
         $item = Item::with('cates')->find($id);
-        //$item = Item::findOrFail($id);
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id]) && array_key_exists($item->id, $cart)) {
