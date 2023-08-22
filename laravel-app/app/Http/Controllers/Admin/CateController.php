@@ -30,7 +30,7 @@ class CateController extends Controller
         $cate->description = $request->txtDescription;
         //$cate->created_at = new DateTime();
         $cate->save();
-        return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Added Category Success.']);
+        return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Category successfully added']);
 
     }
     public function getIndex()
@@ -45,7 +45,7 @@ class CateController extends Controller
     {
         $cates = Cate::findOrFail($id);
         $cates->delete();
-        return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Deleted Success.']);
+        return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Category successfully deleted']);
     }
     public function getEdit($id)
     {
@@ -62,6 +62,6 @@ class CateController extends Controller
         $cate->slug = Str::slug($request->txtCateName, '-');
         $cate->description = $request->txtDescription;
         $cate->save();
-        return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Edited Category Success.']);
+        return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Category successfully edited.']);
     }
 }

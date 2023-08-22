@@ -34,7 +34,7 @@ class ItemController extends Controller
         $item->price = $request->txtPrice;
         $item->cate_id = $request->sltCate;
         $item->save();
-        return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Added Item Success.']);
+        return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully added.']);
 
     }
     public function getIndex()
@@ -49,7 +49,7 @@ class ItemController extends Controller
     {
         $item = Item::findOrFail($id);
         $item->delete();
-        return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Deleted Item Success.']);
+        return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully deleted.']);
     }
     public function getEdit($id)
     {
@@ -70,11 +70,15 @@ class ItemController extends Controller
         $item->price = $request->txtPrice;
         $item->cate_id = $request->sltCate;
         $item->save();
-        return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Edited Item Success.']);
+        return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully Edited.']);
     }
     public function getItemByCate($id, $title)
     {
         $cate = Cate::find($id);
+        $sessions = session()->all();
+        echo "<pre>";
+        print_r($sessions);
+        echo "</pre>";
         if ($cate) {
             $items = $cate->items()->get();
             return view('admin.module.item.show')->with([
@@ -85,4 +89,84 @@ class ItemController extends Controller
             return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-danger', 'flash_message' => 'The Category is not Exist']);
         }
     }
+
+    public function getAllItem()
+    {
+        $items = Item::all();
+        return view('admin.module.item.show')->with([
+            'title' => 'Dashboard - Items',
+            'listItem' => $items
+        ]);
+    }
+
+    // public function getItemCart()
+    // {
+    //     return view('admin.module.item.viewcart')->with([
+    //         'title' => 'View Cart'
+    //     ]);
+    // }
+
+    public function addItemtoCart($id)
+    {
+        $item = Item::with('cates')->find($id);
+        //$item = Item::findOrFail($id);
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id]) && array_key_exists($item->id, $cart)) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "cate_name" => $item->cates->cate_name,
+                "item_name" => $item->item_name,
+                "unit" => $item->unit,
+                "price" => $item->price,
+                "quantity" => 1
+            ];
+        }
+        session()->put('cart', $cart);
+        return redirect()->back()->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item has been added to cart!']);
+    }
+
+    public function removeItem(Request $request)
+    {
+        if ($request->id) {
+            $cart = session()->get('cart');
+            if (isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Item successfully deleted.');
+        }
+    }
+
+    public function emptyCart(Request $request)
+    {
+        if ($request->_token) {
+            session()->forget('cart');
+            session()->flash('success', 'Empty Cart Successfully.');
+        }
+    }
+
+    public function updateItemQuantity(Request $request)
+    {
+        if ($request->id && $request->quantity) {
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
+            session()->put('cart', $cart);
+            session()->flash('success', 'Item updated successfully');
+        }
+    }
+
+    // public function updateCart(Request $request)
+    // {
+    //     $data = $request->quantity;
+    //     $cart = session()->get('cart');
+    //     foreach ($data as $k => $sl) {
+    //         $cart[$k]['quantity'] = $sl;
+    //     }
+    //     session()->put('cart', $cart);
+    //     session()->flash('success', 'Update Cart Successfully');
+    //     return view('admin.module.item.viewcart')->with('title', 'View Cart');
+    // }
+
 }

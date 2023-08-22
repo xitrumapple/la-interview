@@ -51,14 +51,29 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('edit/{id}', ['as' => 'item_edit_get', 'uses' => 'ItemController@getEdit'])->where(['id' => '[0-9]+']);
             Route::post('edit/{id}', ['as' => 'item_edit_post', 'uses' => 'ItemController@postEdit'])->where(['id' => '[0-9]+']);
             Route::get('show/{id}/{title}', ['as' => 'cate_item_get', 'uses' => 'ItemController@getItemByCate'])->where(['id' => '[0-9]+', 'title' => '[a-zA-Z0-9._\-]+']);
+            Route::get('show/buy-more', ['as' => 'all_item_get', 'uses' => 'ItemController@getAllItem']);
+            Route::post('update-cart', ['as' => 'update.cart', 'uses' => 'ItemController@updateCart']); //not complete yet do it later
+
+            //Add item to cart
+            Route::get('{id}', [App\Http\Controllers\Admin\ItemController::class, 'addItemtoCart'])->name('additem.to.cart');
+            //Route::get('viewcart', [App\Http\Controllers\Admin\ItemController::class, 'getItemCart'])->name('view.cart');
+            Route::delete('/remove-cart-item', [App\Http\Controllers\Admin\ItemController::class, 'removeItem'])->name('remove.cart.item');
+            Route::delete('/empty-cart', [App\Http\Controllers\Admin\ItemController::class, 'emptyCart'])->name('empty.cart');
+            Route::patch('/update-quantity-item', [App\Http\Controllers\Admin\ItemController::class, 'updateItemQuantity'])->name('update.quantity.item');
         });
 
+        //Invoice
+        Route::group(['prefix' => 'invoice'], function () {
+            Route::post('create', ['as' => 'invoice_create_post', 'uses' => 'InvoiceController@postCreate']);
+            Route::get('list', ['as' => 'invoice_index_get', 'uses' => 'InvoiceController@getIndex']);
+        });
 
-
-
-
-
-
+        Route::get('viewcart', [
+            'as' => 'view.cart',
+            function () {
+                return view('admin.module.item.viewcart')->with('title', 'View Cart');
+            }
+        ]);
 
         // Route::get('cate/list', [
         //     'as' => 'cate_index_get',
@@ -79,21 +94,13 @@ Route::group(['middleware' => 'auth'], function () {
         //     }
         // ]);
 
-        Route::get('order/list', [
-            'as' => 'order_index_get',
-            function () {
-                return view('admin.module.invoice.orderlist')->with('title', 'Manage Invoice');
-            }
-        ]);
+        // Route::get('order/list', [
+        //     'as' => 'order_index_get',
+        //     function () {
+        //         return view('admin.module.invoice.orderlist')->with('title', 'Manage Invoice');
+        //     }
+        // ]);
 
-
-
-        Route::get('viewcart', [
-            'as' => 'viewcart_get',
-            function () {
-                return view('admin.module.invoice.viewcart')->with('title', 'View Cart');
-            }
-        ]);
     });
 
 });

@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{$item->item_name}}</h5>
                     <p class="card-text">${{$item->price}} - {{$item->unit}}</p>
-                    <a href="{{route('item_index_get')}}" class="btn btn-primary">ADD</a>
+                    <a href="{{ route('additem.to.cart', $item->id) }}" class="btn btn-outline-danger">Add to cart</a>
                 </div>
             </div>
         </div>
