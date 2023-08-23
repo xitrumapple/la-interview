@@ -29,7 +29,7 @@
                     {{ \Carbon\Carbon::createFromTimeStamp(strtotime($invoice['created_at']))->format('d M Y g:i a') }}
                 </td>
                 <td><a href="{{ route('invoice_edit_get', $invoice['id']) }}" class="btn btn-warning">Edit</a></td>
-                <td><a href="#" class="btn btn-danger">Delete</a></td>
+                <td><a href="{{ route('invoice_delete_get', $invoice['id']) }}" class="btn btn-danger">Delete</a></td>
             </tr>
             @endforeach
         </table>

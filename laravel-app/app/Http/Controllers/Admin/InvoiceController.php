@@ -138,4 +138,10 @@ class InvoiceController extends Controller
 
         return redirect()->route('invoice_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Invoice successfully Updated.']);
     }
+    public function getDelete($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $invoice->delete();
+        return redirect()->route('invoice_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Invoice successfully Deleted.']);
+    }
 }

@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('list', ['as' => 'invoice_index_get', 'uses' => 'InvoiceController@getIndex']);
             Route::get('edit/{id}', ['as' => 'invoice_edit_get', 'uses' => 'InvoiceController@getEdit'])->where(['id' => '[0-9]+']);
             Route::post('edit/{id}', ['as' => 'invoice_edit_post', 'uses' => 'InvoiceController@postEdit'])->where(['id' => '[0-9]+']);
+            Route::get('delete/{id}', ['as' => 'invoice_delete_get', 'uses' => 'InvoiceController@getDelete'])->where(['id' => '[0-9]+']);
 
             //Process Edit Invoice Before Saving to DB
             Route::delete('/remove-cart-item', [App\Http\Controllers\Admin\InvoiceController::class, 'removeItem'])->name('remove.cart.item');
