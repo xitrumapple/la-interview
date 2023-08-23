@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Invoice;
 use Illuminate\Support\Str;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -81,7 +82,8 @@ class InvoiceController extends Controller
 
         return view('admin.module.invoice.edit')->with([
             'title' => 'Edit Invoice',
-            'customer_name' => $invoice->customer_name
+            'customer_name' => $invoice->customer_name,
+            'id_invoice' => $id
         ]);
     }
 
@@ -144,4 +146,40 @@ class InvoiceController extends Controller
         $invoice->delete();
         return redirect()->route('invoice_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Invoice successfully Deleted.']);
     }
+    public function getPageInvoice($id)
+    {
+        session()->forget('editInvoice');
+        $invoice = Invoice::findOrFail($id);
+        $items = $invoice->items()->with('cates')->get();
+
+        $editInvoice = session()->get('editInvoice', []);
+
+        foreach ($items as $item) {
+            $editInvoice[$item->id] = [
+                "cate_name" => $item->cates->cate_name,
+                "item_name" => $item->item_name,
+                "unit" => $item->unit,
+                "price" => $item->pivot->price,
+                "quantity" => $item->pivot->quantity
+            ];
+        }
+        session()->put('editInvoice', $editInvoice);
+
+        return view('admin.module.invoice.printInvoice')->with([
+            'title' => 'Page Print Invoice',
+            'customer_name' => $invoice->customer_name,
+            'id_invoice' => $id
+        ]);
+
+    }
+    public function generateInvoicePDF($id)
+    {
+        $invoice = Invoice::find($id);
+
+        $pdf = PDF::loadView('admin.module.invoice.print', ['invoice' => $invoice]);
+
+        return $pdf->download('invoice.pdf');
+    }
+
+
 }

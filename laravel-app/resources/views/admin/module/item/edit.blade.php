@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-6">
                 <label for="inputPrice" class="form-label">Price</label>
-                <input type="text" class="form-control" id="inputPrice" name="txtPrice"
+                <input type="number" pattern="[0-9]+" min="1" class="form-control" id="inputPrice" name="txtPrice"
                     value="{{ old('txtPrice', isset($item->price) ? $item->price : null)  }}">
             </div>
             <div class="col-12">

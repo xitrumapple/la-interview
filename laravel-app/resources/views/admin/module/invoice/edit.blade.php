@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header">{{$title}}</div>
+    <div class="card-header">
+        {{$title}}
+    </div>
 
     <div class="card-body">
         <form action="" method="POST" class="row g-3">
@@ -81,7 +83,7 @@
 
         if (confirm("Do you really want to delete?")) {
             $.ajax({
-                url: "{{ route('remove.cart.item') }}",
+                url: "{{ route('remove.invoice.item') }}",
                 method: "DELETE",
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -118,7 +120,7 @@
         $get_amount = [];
 
         $.ajax({
-            url: "{{ route('update.quantity.item') }}",
+            url: "{{ route('update.quantity.invoice.item') }}",
             method: "patch",
             data: {
                 _token: '{{ csrf_token() }}',

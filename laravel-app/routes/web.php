@@ -70,9 +70,13 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('edit/{id}', ['as' => 'invoice_edit_post', 'uses' => 'InvoiceController@postEdit'])->where(['id' => '[0-9]+']);
             Route::get('delete/{id}', ['as' => 'invoice_delete_get', 'uses' => 'InvoiceController@getDelete'])->where(['id' => '[0-9]+']);
 
+            // Print Invoice
+            Route::get('page/{id}', ['as' => 'page_invoice_get', 'uses' => 'InvoiceController@getPageInvoice'])->where(['id' => '[0-9]+']);
+            Route::get('print/{id}', ['as' => 'generate_invoice_get', 'uses' => 'InvoiceController@generateInvoicePDF'])->where(['id' => '[0-9]+']);
+
             //Process Edit Invoice Before Saving to DB
-            Route::delete('/remove-cart-item', [App\Http\Controllers\Admin\InvoiceController::class, 'removeItem'])->name('remove.cart.item');
-            Route::patch('/update-quantity-item', [App\Http\Controllers\Admin\InvoiceController::class, 'updateItemQuantity'])->name('update.quantity.item');
+            Route::delete('/remove-invoice-item', [App\Http\Controllers\Admin\InvoiceController::class, 'removeItem'])->name('remove.invoice.item');
+            Route::patch('/update-quantity-invoice-item', [App\Http\Controllers\Admin\InvoiceController::class, 'updateItemQuantity'])->name('update.quantity.invoice.item');
         });
 
         Route::get('viewcart', [

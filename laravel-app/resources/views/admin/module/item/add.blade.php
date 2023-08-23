@@ -36,7 +36,8 @@
             </div>
             <div class="col-md-6">
                 <label for="inputPrice" class="form-label">Price</label>
-                <input type="text" class="form-control" id="inputPrice" name="txtPrice" value="{{Old('txtPrice')}}">
+                <input type="number" pattern="[0-9]+" min="1" class="form-control" id="inputPrice" name="txtPrice"
+                    value="{{Old('txtPrice')}}">
             </div>
             <div class="col-12">
                 <a href="{{route('item_index_get')}}" class="btn btn-secondary">Cancel</a>
