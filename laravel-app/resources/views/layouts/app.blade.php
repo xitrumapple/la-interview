@@ -71,9 +71,10 @@
 
                         <li class="nav-item">
                             <a class="btn btn-outline-dark" href="{{ route('view.cart') }}">
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span
-                                    class="badge bg-danger">{{ count((array)
-                                    session('cart')) }}</span>
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> Invoice <span
+                                    class="badge bg-danger">
+                                    {{ count((array) session('cart')) }}
+                                </span>
                             </a>
                         </li>
 

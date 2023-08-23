@@ -101,7 +101,6 @@ class ItemController extends Controller
     //         'title' => 'View Cart'
     //     ]);
     // }
-
     public function addItemtoCart($id)
     {
         $item = Item::with('cates')->find($id);

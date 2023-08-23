@@ -26,9 +26,9 @@
                 <td>{{array_sum($sum[$key_o])}}</td>
                 <td>
                     <?php \Carbon\Carbon::setLocale('vi') ?>
-                    {{ \Carbon\Carbon::createFromTimeStamp(strtotime($invoice['created_at']))->format('M d Y H:i:s') }}
+                    {{ \Carbon\Carbon::createFromTimeStamp(strtotime($invoice['created_at']))->format('d M Y g:i a') }}
                 </td>
-                <td><a href="#" class="btn btn-warning">Edit</a></td>
+                <td><a href="{{ route('invoice_edit_get', $invoice['id']) }}" class="btn btn-warning">Edit</a></td>
                 <td><a href="#" class="btn btn-danger">Delete</a></td>
             </tr>
             @endforeach

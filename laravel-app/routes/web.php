@@ -66,12 +66,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'invoice'], function () {
             Route::post('create', ['as' => 'invoice_create_post', 'uses' => 'InvoiceController@postCreate']);
             Route::get('list', ['as' => 'invoice_index_get', 'uses' => 'InvoiceController@getIndex']);
+            Route::get('edit/{id}', ['as' => 'invoice_edit_get', 'uses' => 'InvoiceController@getEdit'])->where(['id' => '[0-9]+']);
+            Route::post('edit/{id}', ['as' => 'invoice_edit_post', 'uses' => 'InvoiceController@postEdit'])->where(['id' => '[0-9]+']);
+
+            //Process Edit Invoice Before Saving to DB
+            Route::delete('/remove-cart-item', [App\Http\Controllers\Admin\InvoiceController::class, 'removeItem'])->name('remove.cart.item');
+            Route::patch('/update-quantity-item', [App\Http\Controllers\Admin\InvoiceController::class, 'updateItemQuantity'])->name('update.quantity.item');
         });
 
         Route::get('viewcart', [
             'as' => 'view.cart',
             function () {
-                return view('admin.module.item.viewcart')->with('title', 'View Cart');
+                return view('admin.module.item.viewcart')->with('title', 'View Invoice');
             }
         ]);
 
