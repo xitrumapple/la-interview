@@ -71,6 +71,7 @@ class InvoiceController extends Controller
 
         foreach ($items as $item) {
             $editInvoice[$item->id] = [
+                'image' => $item->image,
                 "cate_name" => $item->cates->cate_name,
                 "item_name" => $item->item_name,
                 "unit" => $item->unit,
@@ -156,6 +157,7 @@ class InvoiceController extends Controller
 
         foreach ($items as $item) {
             $editInvoice[$item->id] = [
+                'image' => $item->image,
                 "cate_name" => $item->cates->cate_name,
                 "item_name" => $item->item_name,
                 "unit" => $item->unit,

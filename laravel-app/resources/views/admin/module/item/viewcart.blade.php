@@ -17,7 +17,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>No</td>
+                    <td>Image</td>
                     <td>Category</td>
                     <td>Fruit</td>
                     <td>Unit</td>
@@ -26,12 +26,17 @@
                     <td>Amount</td>
                     <td>Action</td>
                 </tr>
-                @php $total = 0; $i = 0 @endphp
+                @php $total = 0 @endphp
                 @if(session('cart'))
                 @foreach(session('cart') as $id => $item)
-                @php $i++ @endphp
                 <tr>
-                    <td>{{$i}}</td>
+                    <td>
+                        @if (!empty($item['image']))
+                        <img src="{{ asset('public/uploads/'.$item['image']) }}" width="70" height="70">
+                        @else
+                        <img src="{{ asset('public/asset/image/default.png') }}" width="70" height="70">
+                        @endif
+                    </td>
                     <td>{{$item['cate_name']}}</td>
                     <td>{{$item['item_name']}}</td>
                     <td>{{$item['unit']}}</td>

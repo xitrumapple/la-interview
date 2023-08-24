@@ -131,6 +131,7 @@ class ItemController extends Controller
             $cart[$id]['quantity']++;
         } else {
             $cart[$id] = [
+                'image' => $item->image,
                 "cate_name" => $item->cates->cate_name,
                 "item_name" => $item->item_name,
                 "unit" => $item->unit,
