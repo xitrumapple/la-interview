@@ -5,7 +5,7 @@
     <div class="card-header">{{$title}}</div>
 
     <div class="card-body">
-        <form action="" method="POST" class="row g-3">
+        <form action="" enctype="multipart/form-data" method="POST" class="row g-3">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="col-md-6">
                 <label for="inputItem" class="form-label">Item Name</label>
@@ -46,6 +46,19 @@
                 <input type="number" pattern="[0-9]+" min="1" class="form-control" id="inputPrice" name="txtPrice"
                     value="{{ old('txtPrice', isset($item->price) ? $item->price : null)  }}">
             </div>
+            <div class="col-mb-3">
+                <label for="edititem_image">
+                    @if (!empty($item->image))
+                    <img src="{{ asset('public/uploads/'.$item->image) }}" width="150" height="150" id="editshow_img"
+                        class="rounded">
+                    @else
+                    <img src="{{ asset('public/asset/image/default.png') }}" width="150" height="150" id="editshow_img"
+                        class="rounded">
+                    @endif
+
+                </label>
+                <input type="file" class="form-control d-none" id="edititem_image" name="image">
+            </div>
             <div class="col-12">
                 <a href="{{route('item_index_get')}}" class="btn btn-secondary">Cancel</a>
                 <input type="submit" class="btn btn-primary" value="Edit Item" />
@@ -53,4 +66,26 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('script-viewcart')
+<script type="text/javascript">
+
+    var imageInput = $("#edititem_image");
+    imageInput.on("change", function () {
+        if (imageInput[0].files && imageInput[0].files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#editshow_img')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(150);
+            };
+            reader.readAsDataURL(imageInput[0].files[0]);
+            //console.log(imageInput[0].files[0]);
+        }
+    })
+
+</script>
 @endsection

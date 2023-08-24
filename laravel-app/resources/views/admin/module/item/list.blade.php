@@ -10,18 +10,22 @@
                 <td colspan="8"><a href="{{route('item_create_get')}}" class="btn btn-info">Add Item</a></td>
             </tr>
             <tr>
-                <td>No</td>
+                <td>Image</td>
                 <td>Name</td>
                 <td>Unit - Price</td>
                 <td>Category</td>
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
-            @php($i = 0)
             @foreach ($listItem as $item)
-            @php($i++)
             <tr>
-                <td>{{$i}}</td>
+                <td>
+                    @if (!empty($item->image))
+                    <img src="{{ asset('public/uploads/'.$item->image) }}" width="70" height="70">
+                    @else
+                    <img src="{{ asset('public/asset/image/default.png') }}" width="70" height="70">
+                    @endif
+                </td>
                 <td>{{$item->item_name}}</td>
                 <td>{{$item->unit}} - ${{$item->price}}</td>
                 <td>{{$item->cates->cate_name}}</td>

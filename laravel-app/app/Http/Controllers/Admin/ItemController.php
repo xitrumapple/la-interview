@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Http\Requests\ItemRequest;
 use App\Http\Requests\ItemEditRequest;
 use Illuminate\Support\Str;
+use File;
 
 class ItemController extends Controller
 {
@@ -33,6 +34,9 @@ class ItemController extends Controller
         $item->unit = $request->sltUnit;
         $item->price = $request->txtPrice;
         $item->cate_id = $request->sltCate;
+        //Process upload Image
+        $path = $request->file('image')->store('items', ['disk' => 'my_files']);
+        $item->image = $path;
         $item->save();
         return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully added.']);
 
@@ -48,6 +52,10 @@ class ItemController extends Controller
     public function getDelete($id)
     {
         $item = Item::findOrFail($id);
+        $filename = public_path('uploads/') . $item->image;
+        if (File::exists($filename)) {
+            File::delete($filename);
+        }
         $item->delete();
         return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully deleted.']);
     }
@@ -69,6 +77,18 @@ class ItemController extends Controller
         $item->unit = $request->sltUnit;
         $item->price = $request->txtPrice;
         $item->cate_id = $request->sltCate;
+        //Process Image
+        if ($request->image != '') {
+            // Delete Old image before upload new image
+            $filename = public_path('uploads/') . $item->image;
+            if (File::exists($filename)) {
+                File::delete($filename);
+            }
+
+            //upload new Image
+            $path = $request->file('image')->store('items', ['disk' => 'my_files']);
+            $item->image = $path;
+        }
         $item->save();
         return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully Edited.']);
     }
@@ -77,8 +97,9 @@ class ItemController extends Controller
         $cate = Cate::find($id);
         if ($cate) {
             $items = $cate->items()->get();
+            $count = count($items);
             return view('admin.module.item.show')->with([
-                'title' => 'Dashboard - Items',
+                'title' => "$cate->cate_name - $count items",
                 'listItem' => $items
             ]);
         } else {
