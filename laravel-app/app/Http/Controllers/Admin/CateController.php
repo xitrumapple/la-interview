@@ -8,7 +8,7 @@ use App\Models\Cate;
 use App\Http\Requests\CateRequest;
 use App\Http\Requests\CateEditRequest;
 use Illuminate\Support\Str;
-
+use File;
 
 class CateController extends Controller
 {
@@ -26,6 +26,10 @@ class CateController extends Controller
     {
         $cate = new Cate;
         $cate->cate_name = $request->txtCateName;
+        //Process upload Image
+        $path = $request->file('image')->store('cates', ['disk' => 'my_files']);
+        $cate->image = $path;
+
         $cate->slug = Str::slug($request->txtCateName, '-');
         $cate->description = $request->txtDescription;
         //$cate->created_at = new DateTime();
@@ -44,6 +48,10 @@ class CateController extends Controller
     public function getDelete($id)
     {
         $cates = Cate::findOrFail($id);
+        $filename = public_path('uploads/') . $cates->image;
+        if (File::exists($filename)) {
+            File::delete($filename);
+        }
         $cates->delete();
         return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Category successfully deleted']);
     }
@@ -61,6 +69,18 @@ class CateController extends Controller
         $cate->cate_name = $request->txtCateName;
         $cate->slug = Str::slug($request->txtCateName, '-');
         $cate->description = $request->txtDescription;
+        //Process Image
+        if ($request->image != '') {
+            // Delete Old image before upload new image
+            $filename = public_path('uploads/') . $cate->image;
+            if (File::exists($filename)) {
+                File::delete($filename);
+            }
+
+            //upload new Image
+            $path = $request->file('image')->store('cates', ['disk' => 'my_files']);
+            $cate->image = $path;
+        }
         $cate->save();
         return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Category successfully edited.']);
     }

@@ -86,6 +86,10 @@ Route::group(['middleware' => 'auth'], function () {
             }
         ]);
 
+        Route::get('/linkstorage', function () {
+            Artisan::call('storage:link');
+        });
+
         // Route::get('cate/list', [
         //     'as' => 'cate_index_get',
         //     function () {

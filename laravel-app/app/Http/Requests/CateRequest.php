@@ -23,7 +23,8 @@ class CateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'txtCateName' => 'required|unique:cates,cate_name'
+            'txtCateName' => 'required|unique:cates,cate_name',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 
@@ -32,6 +33,9 @@ class CateRequest extends FormRequest
         return [
             'txtCateName.required' => 'Please Enter Category Name.',
             'txtCateName.unique' => 'Category Name has already exists.',
+            'image.required' => 'Please upload image.',
+            'image.mimes' => 'Image must be jpeg,png,jpg,gif',
+            'image.size' => 'Image Size is only 2MB',
         ];
     }
 }

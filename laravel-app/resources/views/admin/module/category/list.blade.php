@@ -11,18 +11,22 @@
                 </td>
             </tr>
             <tr>
-                <td>No</td>
+                <td>Image</td>
                 <td>Name</td>
                 <td>Slug</td>
                 <td>Description</td>
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
-            <?php $i = 0; ?>
             @foreach ($listCate as $cate)
-            <?php $i++; ?>
             <tr>
-                <td>{{$i}}</td>
+                <td>
+                    @if (!empty($cate->image))
+                    <img src="{{ asset('public/uploads/'.$cate->image) }}" width="100" height="100">
+                    @else
+                    <img src="{{ asset('public/asset/image/default.png') }}" width="100" height="100">
+                    @endif
+                </td>
                 <td>{{$cate->cate_name}}</td>
                 <td>{{$cate->slug}}</td>
                 <td>{{$cate->description}}</td>
