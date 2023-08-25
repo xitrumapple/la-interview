@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'cn_admin', 'namespace' => 'App\Http\Controllers\Admin'], function () {
 
+        //Dashboard
+        Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+
         //Category
         Route::group(['prefix' => 'category'], function () {
             Route::get('create', ['as' => 'cate_create_get', 'uses' => 'CateController@getCreate']);

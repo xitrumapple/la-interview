@@ -24,8 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $cates = Cate::with('items')->get();
         return view('home')->with([
+            'title' => 'Home Page',
+        ]);
+    }
+
+    public function dashboard()
+    {
+        $cates = Cate::with('items')->get();
+        return view('dashboard')->with([
             'title' => 'Dashboard - Categories',
             'listCate' => $cates
         ]);
