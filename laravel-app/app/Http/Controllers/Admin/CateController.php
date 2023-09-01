@@ -65,23 +65,43 @@ class CateController extends Controller
     }
     public function postEdit(CateEditRequest $request, $id)
     {
-        $cate = Cate::find($id);
-        $cate->cate_name = $request->txtCateName;
-        $cate->slug = Str::slug($request->txtCateName, '-');
-        $cate->description = $request->txtDescription;
-        //Process Image
-        if ($request->image != '') {
-            // Delete Old image before upload new image
-            $filename = public_path('uploads/') . $cate->image;
-            if (File::exists($filename)) {
-                File::delete($filename);
+        //$cate = Cate::find($id);
+        $cateCheck = Cate::where('cate_name', $request->txtCateName)->whereNotIn('id', [$request->id])->first();
+
+        if ($cateCheck == null) {
+            $cate = Cate::findOrFail($id);
+
+            //Process Image
+            if ($request->image != '') {
+
+                // Delete Old image Before Uploading new image
+                $filename = public_path('uploads/') . $cate->image;
+                if (File::exists($filename)) {
+                    File::delete($filename);
+                }
+
+                //upload new Image
+                $path = $request->file('image')->store('cates', ['disk' => 'my_files']);
+
+                $cate->update([
+                    'cate_name' => $request->txtCateName,
+                    'slug' => Str::slug($request->txtCateName, '-'),
+                    'description' => $request->txtDescription,
+                    'image' => $path
+                ]);
+
+            } else {
+                $cate->update([
+                    'cate_name' => $request->txtCateName,
+                    'slug' => Str::slug($request->txtCateName, '-'),
+                    'description' => $request->txtDescription
+                ]);
             }
 
-            //upload new Image
-            $path = $request->file('image')->store('cates', ['disk' => 'my_files']);
-            $cate->image = $path;
+            return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Category successfully edited.']);
+        } else {
+            return redirect()->back()->with(['flash_level' => 'alert alert-danger', 'flash_message' => 'Category Name has already exists.']);
         }
-        $cate->save();
-        return redirect()->route('cate_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Category successfully edited.']);
+
     }
 }

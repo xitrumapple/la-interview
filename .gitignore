@@ -1,0 +1,9 @@
+/laravel-app/node_modules
+/laravel-app/public/hot
+/laravel-app/public/storage
+/laravel-app/storage/*.key
+/laravel-app/vendor
+/laravel-app/.env
+/laravel-app/.env.backup
+/docker/mysql
+/docker/init-db.sql

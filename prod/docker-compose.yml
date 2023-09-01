@@ -1,10 +1,10 @@
 services:
 
-  laravel-docker:
-    container_name: laravel-docker
+  app:
+    container_name: laravel-app
     build: .
     volumes:
-      - ./laravel-app:/var/www/html
+      - ../laravel-app:/var/www/html
     ports:
       - 9000:80
 
@@ -14,6 +14,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: la_interview
+    volumes:
+      - ../docker/mysql:/var/lib/mysql
+      - ../docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     ports:
       - 3306:3306
 
@@ -24,3 +27,5 @@ services:
       - 9001:80
     environment:
       - PMA_ARBITRARY=1
+
+#docker compose -p la10-invoice up -d
