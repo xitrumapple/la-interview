@@ -71,26 +71,47 @@ class ItemController extends Controller
     }
     public function postEdit(ItemEditRequest $request, $id)
     {
-        $item = Item::find($id);
-        $item->item_name = $request->txtItemName;
-        $item->slug = Str::slug($request->txtItemName, '-');
-        $item->unit = $request->sltUnit;
-        $item->price = $request->txtPrice;
-        $item->cate_id = $request->sltCate;
-        //Process Image
-        if ($request->image != '') {
-            // Delete Old image before upload new image
-            $filename = public_path('uploads/') . $item->image;
-            if (File::exists($filename)) {
-                File::delete($filename);
+        $itemCheck = Item::where('item_name', $request->txtItemName)->whereNotIn('id', [$request->id])->first();
+
+        if ($itemCheck == null) {
+            $item = Item::findOrFail($id);
+
+            //Process Image
+            if ($request->image != '') {
+
+                // Delete Old image Before Uploading new image
+                $filename = public_path('uploads/') . $item->image;
+                if (File::exists($filename)) {
+                    File::delete($filename);
+                }
+
+                //upload new Image
+                $path = $request->file('image')->store('items', ['disk' => 'my_files']);
+
+                $item->update([
+                    'item_name' => $request->txtItemName,
+                    'slug' => Str::slug($request->txtItemName, '-'),
+                    'unit' => $request->sltUnit,
+                    'price' => $request->txtPrice,
+                    'cate_id' => $request->sltCate,
+                    'image' => $path
+                ]);
+
+            } else {
+                $item->update([
+                    'item_name' => $request->txtItemName,
+                    'slug' => Str::slug($request->txtItemName, '-'),
+                    'unit' => $request->sltUnit,
+                    'price' => $request->txtPrice,
+                    'cate_id' => $request->sltCate
+                ]);
             }
 
-            //upload new Image
-            $path = $request->file('image')->store('items', ['disk' => 'my_files']);
-            $item->image = $path;
+            return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully Edited.']);
+        } else {
+            return redirect()->back()->with(['flash_level' => 'alert alert-danger', 'flash_message' => 'Item Name has already exists.']);
         }
-        $item->save();
-        return redirect()->route('item_index_get')->with(['flash_level' => 'alert alert-success', 'flash_message' => 'Item successfully Edited.']);
+
     }
     public function getItemByCate($id, $title)
     {

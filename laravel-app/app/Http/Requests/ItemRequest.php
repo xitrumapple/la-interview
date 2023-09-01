@@ -25,7 +25,8 @@ class ItemRequest extends FormRequest
             'txtItemName' => 'required|unique:items,item_name',
             'sltCate' => 'required',
             'sltUnit' => 'required',
-            'txtPrice' => 'required|integer'
+            'txtPrice' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
     public function messages(): array
@@ -37,6 +38,9 @@ class ItemRequest extends FormRequest
             'sltUnit.required' => 'Please Choose Unit.',
             'txtPrice.required' => 'Please Enter Price.',
             'txtPrice.integer' => 'Price must be integer.',
+            'image.required' => 'Please upload image.',
+            'image.mimes' => 'Image must be jpeg,png,jpg,gif',
+            'image.size' => 'Image Size is only 2MB',
         ];
     }
 }
