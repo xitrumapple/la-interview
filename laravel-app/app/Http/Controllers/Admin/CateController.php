@@ -65,7 +65,7 @@ class CateController extends Controller
     }
     public function postEdit(CateEditRequest $request, $id)
     {
-        $cateCheck = Cate::where('cate_name', $request->txtCateName)->whereNotIn('id', [$request->id])->first();
+        $cateCheck = Cate::where('cate_name', $request->txtCateName)->whereNotIn('id', [$id])->first();
 
         if ($cateCheck == null) {
             $cate = Cate::findOrFail($id);

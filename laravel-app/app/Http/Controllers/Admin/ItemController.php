@@ -71,7 +71,7 @@ class ItemController extends Controller
     }
     public function postEdit(ItemEditRequest $request, $id)
     {
-        $itemCheck = Item::where('item_name', $request->txtItemName)->whereNotIn('id', [$request->id])->first();
+        $itemCheck = Item::where('item_name', $request->txtItemName)->whereNotIn('id', [$id])->first();
 
         if ($itemCheck == null) {
             $item = Item::findOrFail($id);
@@ -117,7 +117,7 @@ class ItemController extends Controller
     {
         $cate = Cate::find($id);
         if ($cate) {
-            $items = $cate->items()->get();
+            $items = $cate->items()->paginate(10);
             $count = count($items);
             return view('admin.module.item.show')->with([
                 'title' => "$cate->cate_name - $count items",

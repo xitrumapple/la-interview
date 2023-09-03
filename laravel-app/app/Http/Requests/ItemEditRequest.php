@@ -22,7 +22,7 @@ class ItemEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'txtItemName' => 'required|unique:items,item_name',
+            'txtItemName' => 'required',
             'sltCate' => 'required',
             'sltUnit' => 'required',
             'txtPrice' => 'required|integer',
@@ -33,7 +33,6 @@ class ItemEditRequest extends FormRequest
     {
         return [
             'txtItemName.required' => 'Please Enter Item Name.',
-            'txtItemName.unique' => 'Item Name has already exists.',
             'sltCate.required' => 'Please Choose Category.',
             'sltUnit.required' => 'Please Choose Unit.',
             'txtPrice.required' => 'Please Enter Price.',
