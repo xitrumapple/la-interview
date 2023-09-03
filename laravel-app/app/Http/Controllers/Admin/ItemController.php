@@ -11,6 +11,7 @@ use App\Http\Requests\ItemEditRequest;
 use Illuminate\Support\Str;
 use File;
 
+
 class ItemController extends Controller
 {
     public function __construct()
@@ -130,11 +131,14 @@ class ItemController extends Controller
 
     public function getAllItem()
     {
-        $items = Item::all();
+        // $cate = Cate::all();
+        // $items = $cate->items->paginate(5);
+        $items = Item::paginate(5);
         return view('admin.module.item.show')->with([
             'title' => 'Dashboard - Items',
             'listItem' => $items
         ]);
+
     }
 
     // public function getItemCart()
@@ -145,7 +149,7 @@ class ItemController extends Controller
     // }
     public function addItemtoCart($id)
     {
-        $item = Item::with('cates')->find($id);
+        $item = Item::with('cates')->findOrFail($id);
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id]) && array_key_exists($item->id, $cart)) {

@@ -14,6 +14,6 @@ class Cate extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(Item::class, 'cate_id');
+        return $this->hasMany(Item::class, 'cate_id', 'id');
     }
 }

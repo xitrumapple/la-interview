@@ -12,10 +12,16 @@ class Item extends Model
     use HasFactory;
     //protected $table = 'items';
     protected $guarded = [];
-    public function cates(): BelongsTo
+    // public function cates(): BelongsTo
+    // {
+    //     return $this->belongsTo(Cate::class, 'cate_id');
+    // }
+
+    public function cates()
     {
-        return $this->belongsTo(Cate::class, 'cate_id');
+        return $this->hasOne(Cate::class, 'id', 'cate_id');
     }
+
     public function invoices(): BelongsToMany
     {
         return $this->belongsToMany(Invoice::class, "item_invoices")
