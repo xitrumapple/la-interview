@@ -21,6 +21,15 @@
             </div>
         </div>
         @endforeach
+        {{ $listItem->links() }}
     </div>
 </div>
+@endsection
+
+@section('script-viewcart')
+<script type="text/javascript">
+
+    $('nav > ul').addClass("justify-content-center");
+
+</script>
 @endsection

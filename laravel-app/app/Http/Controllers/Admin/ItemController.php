@@ -11,7 +11,6 @@ use App\Http\Requests\ItemEditRequest;
 use Illuminate\Support\Str;
 use File;
 
-
 class ItemController extends Controller
 {
     public function __construct()
@@ -44,7 +43,7 @@ class ItemController extends Controller
     }
     public function getIndex()
     {
-        $items = Item::with('cates')->orderBy('id', 'desc')->get();
+        $items = Item::with('cates')->orderBy('id', 'desc')->paginate(7);
         return view('admin.module.item.list')->with([
             'title' => 'Manage Fruit Item',
             'listItem' => $items
@@ -131,14 +130,11 @@ class ItemController extends Controller
 
     public function getAllItem()
     {
-        // $cate = Cate::all();
-        // $items = $cate->items->paginate(5);
-        $items = Item::paginate(5);
+        $items = Item::orderBy('id', 'desc')->paginate(10);
         return view('admin.module.item.show')->with([
             'title' => 'Dashboard - Items',
             'listItem' => $items
         ]);
-
     }
 
     // public function getItemCart()

@@ -39,7 +39,7 @@ class CateController extends Controller
     }
     public function getIndex()
     {
-        $cates = Cate::paginate(6);
+        $cates = Cate::orderBy('id', 'desc')->paginate(6);
         return view('admin.module.category.list')->with([
             'title' => 'Manage Fruit Category',
             'listCate' => $cates
